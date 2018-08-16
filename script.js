@@ -1,10 +1,18 @@
+//globals
 let currentNumber = "";
 let previousNumber = "";
 let operator = "";
 let result = "";
 
-//MODEL - calculator functionality
-// = final calculation
+//Display***********************************************
+let display = document.getElementById("display");
+
+//display input, display result, clear display, handle overflow
+function updateDisplay(input){
+  display.innerHTML = input;
+}
+
+//  calculator functionality
 function operate(operator, x, y){
   result = operator(x,y);
   updateDisplay(result);
@@ -34,18 +42,7 @@ function divide(x,y){
   return result;
 }
 
-
-//View ************************************************************
-let display = document.getElementById("display");
-
-//display input, display result, clear display, handle overflow
-function updateDisplay(input){
-  display.innerHTML = input;
-}
-
-//Controller *************************************************************
-
-//
+// DOM event handlers
 function setupEventListener(classId, saveInputFn){
   let element = document.getElementsByClassName(classId);
   for (let i = 0; i < element.length; i++) {
@@ -76,36 +73,22 @@ function saveOperator (operator_btn){
     }else{
       updateDisplay("Something went wrong!");
     }
-
     updateDisplay(previousNumber + operator_btn);
-
 }
-
-
 
 // Check if any number buttons have been clicked
 setupEventListener("numpad", saveNumber);
-
 //same for operators
 setupEventListener("operator", saveOperator);
-
-
 //Clear button
 let clear = document.getElementById("reset");
 clear.addEventListener("click", ()=> clearDisplay());
-
-
 //clear display function - clears display + set strings to empty
 function clearDisplay(){
   updateDisplay("");
   currentNumber = "";
   previousNumber = "";
 }
-
 //= button
 let sum = document.getElementById("equal");
 sum.addEventListener("click", ()=> operate(operator, previousNumber, currentNumber));
-
-//m* button
-let magic = document.getElementById("dot");
-magic.addEventListener("click", ()=> updateDisplay(":D"));
